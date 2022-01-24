@@ -2,8 +2,7 @@ name: Github actions to S3 (Auto CD Process)
 
 on:
   push:
-    tags:
-      - '*'
+    branches: [master]
 
 jobs:
   deploy:
@@ -23,7 +22,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
   
     - name: Install npm packages
-      run: npm i
+      run: npm install
 
     - name: Build bundle files
       run: npm run build
