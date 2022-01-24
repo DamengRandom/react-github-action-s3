@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # the Deployment Name
+  name: react-recalls
+spec:
+  # the Number of Pods
+  replicas: 2
+  selector:
+    matchLabels:
+      app: react-recalls
+  template:
+    metadata:
+      labels:
+        app: react-recalls
+    spec:
+      # Container Details
+      containers:
+      - name: react-recalls
+        # Docker Image
+        image: damengdocker101/react-recalls:latest
+        resources:
+         #cpu and memory limit
+          limits:
+            memory: "550Mi"
+            cpu: "500m"
+        ports:
+        # the port on which the app can be reached out inside the container
+        - containerPort: 80
+
+---
+#service 
+apiVersion: v1
+kind: Service
+metadata:
+   # the Service Name - it should match with the label name of the deployment 
+  name: react-recalls
+spec:
+  #type of the service
+  type: NodePort
+  selector:
+    app: react-recalls
+  ports:
+  - port: 3050
+    targetPort: 8080
+    protocol: TCP
+    nodePort: 31000
